@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+
+<HBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox prefHeight="1080.0" prefWidth="2509.0">
+         <children>
+            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" text="MENU">
+               <font>
+                  <Font name="System Bold" size="48.0" />
+               </font>
+            </Label>
+            <Separator prefWidth="200.0" />
+            <TableView prefHeight="796.0" prefWidth="960.0">
+              <columns>
+                <TableColumn prefWidth="160.0" text="NAZWA" />
+                <TableColumn prefWidth="600.0" text="SKŁADNIKI" />
+                  <TableColumn prefWidth="100.0" text="TYP" />
+                  <TableColumn prefWidth="100.0" text="CENA" />
+              </columns>
+            </TableView>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0">
+               <children>
+                  <ImageView fitHeight="163.0" fitWidth="298.0" layoutX="682.0" layoutY="33.0" opacity="0.42" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
+                     <image>
+                        <Image url="@../img/image.png" />
+                     </image>
+                  </ImageView>
+                  <Label alignment="CENTER" contentDisplay="CENTER" layoutX="152.0" layoutY="14.0" prefHeight="81.0" prefWidth="383.0" text="PIZZA DNIA" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="25.0">
+                     <font>
+                        <Font size="48.0" />
+                     </font>
+                  </Label>
+                  <Label alignment="CENTER" layoutX="58.0" layoutY="86.0" prefHeight="70.0" prefWidth="394.0" text="Label" AnchorPane.leftAnchor="100.0" AnchorPane.topAnchor="100.0">
+                     <font>
+                        <Font size="48.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+         </children>
+      </VBox>
+      <VBox prefHeight="1080.0" prefWidth="2509.0" />
+   </children>
+</HBox>
