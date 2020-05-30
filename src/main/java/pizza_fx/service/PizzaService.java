@@ -10,6 +10,7 @@ import pizza_fx.model.PizzaModel;
 import javax.xml.soap.Text;
 import java.text.NumberFormat;
 import java.util.*;
+import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 public class PizzaService {
@@ -69,18 +70,13 @@ public class PizzaService {
         }
         //generator pizzy dnia -> 1.obnizenie ceny wylosowanej pizzy 2.przekazanie ppizzy dnia do labela
     public void pizzaOfTheDayGenerator(ObservableList<PizzaModel> pizzas, Label lbRandomPizza){
-        // losowanie pizzy (przy kazdym uruchomieniu aplikacji)
-        int randomIndex = new Random().nextInt(pizzas.size());
-        PizzaModel pizzaOfTheDay = pizzas.get(randomIndex);
+            }
+                 // obiekt do przechwoywania aktualna kwtoe do zaplaty
+    private double amount;
 
-        // obnizenie ceny pizzy o 20%
-       pizzas.get(randomIndex).setPrice(pizzas.get(randomIndex).getPrice()*0.8);
-
-        //wypisanie nazwy pizzy w labelu
-        lbRandomPizza.setText(String.format("%s - %.2f zł", pizzaOfTheDay.getName(),pizzaOfTheDay.getPrice()));    }
     private List<Integer> choices = new ArrayList<>(Arrays.asList(1,2,3,4,5,6,7,8,9,10));
     // metoda do wybierania i przenoszenia pizzy do koszyka
-    public void addToBasket(TableView<PizzaModel> tblPizza, TextArea taBasket){
+    public void addToBasket(TableView<PizzaModel> tblPizza, TextArea taBasket, Label lblSum){
         // odczyt, który wiersz w tabelce został zaznaczony
         PizzaModel selectedPizza = tblPizza.getSelectionModel().getSelectedItem();
         // utworzenie okna kontekstowego do zamówienia wybranej ilości pizzy
@@ -94,14 +90,28 @@ public class PizzaService {
         result.ifPresent(quantity -> taBasket.appendText(
                 String.format("%-15s %5d szt. %10.2f zł\n",
                         selectedPizza.getName(),quantity, selectedPizza.getPrice() * quantity)));
+        result.ifPresent(quantity -> amount = amount + (quantity * selectedPizza.getPrice()));
+        lblSum.setText(String.format("KWOTA DO ZAPŁATY: %.2f ZŁ", amount));
     }
     public void clearOrder(TextArea taBasket, TextField tfAdress, TextField tfPhone, Label lblSum){
         taBasket.clear();
         tfAdress.clear();
         tfPhone.clear();
         lblSum.setText("KWOTA DO ZAPŁATY 0,00 ZŁ");
+        amount =0;
     }
 
+public boolean isPhoneValid(String phone){
+        return Pattern.matches(
+                "(^([0-9]{3}[-]{1}){2}[0-9]{3}$)|(^[0-9]{9}$)",
+                phone);
+}
+
+public boolean isAdressValid(String adress){
+        return Pattern.matches(
+                "^[au][l][\\.]\\s{0,1}[A-Za-złąęśćźżóń\\d\\.\\s]{1,}\\s{1}\\d{1,}[A-Za-z]{0,}[\\/]{0,1}\\d{0,}[,]\\s{0,1}\\d{2}[-]\\d{3}\\s{1}[A-Za-złąęśćźżóń\\s\\-]{2,}$",
+                adress);
+}
 
 
 

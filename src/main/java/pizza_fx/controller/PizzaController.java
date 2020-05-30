@@ -67,7 +67,7 @@ public class PizzaController {
     @FXML
     void selectPizzaAction(MouseEvent mouseEvent){
         //odczyt, który wiersz w tabelce został zaznaczony
-        pizzaService.addToBasket(tblPizza, taBasket);
+        pizzaService.addToBasket(tblPizza, taBasket, lblSum);
         // utworzenie okna kontekstowego do zamowienia wybranej ilosci pizzy
 
     }
