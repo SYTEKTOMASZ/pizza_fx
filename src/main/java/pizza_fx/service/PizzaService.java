@@ -2,6 +2,7 @@ package pizza_fx.service;
 
 import javafx.collections.ObservableList;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import pizza_fx.model.Ingredient;
 import pizza_fx.model.Pizza;
@@ -107,10 +108,41 @@ public boolean isPhoneValid(String phone){
                 phone);
 }
 
-public boolean isAdressValid(String adress){
-        return Pattern.matches(
-                "^[au][l][\\.]\\s{0,1}[A-Za-złąęśćźżóń\\d\\.\\s]{1,}\\s{1}\\d{1,}[A-Za-z]{0,}[\\/]{0,1}\\d{0,}[,]\\s{0,1}\\d{2}[-]\\d{3}\\s{1}[A-Za-złąęśćźżóń\\s\\-]{2,}$",
-                adress);
+public boolean isAdressValid(String address){
+    return Pattern.matches("^[au][l][\\.]\\s{0,1}[A-Za-złąęśćźżóń\\d\\.\\s]{1,}\\s{1}\\d{1,}[A-Za-z]{0,}[\\/]{0,1}\\d{0,}[,]\\s{0,1}\\d{2}[-]\\d{3}\\s{1}[A-Za-złąęśćźżóń\\s\\-]{2,}$",
+            address);
+
+}
+
+public void getOrder(TextField tfPhone, TextField tfAddress, TextArea taBasket, Label lblSum){
+        if(isAdressValid(tfAddress.getText()) && isPhoneValid(tfPhone.getText()) && !taBasket.getText().equals("")){
+            Alert.AlertType alertAlertType;
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Zamówienie");
+            alert.setHeaderText("Potwierdzenie zamówienia");
+            alert.setContentText("Twoje zamówienie: \n" + taBasket.getText() + "\nDo zapłaty: "  + amount + "zł");
+            alert.showAndWait();
+            clearOrder(taBasket,tfAddress,tfPhone,lblSum);
+
+        }
+        else{
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Zamówienie");
+            alert.setHeaderText("Błędne dane zamówienia");
+            String validationResult = "Wprowadziłes niepoprawne dane w następujących polach: ";
+            if(!isPhoneValid(tfPhone.getText())){
+                validationResult += "telefon ";
+            }
+            if(!isAdressValid(tfAddress.getText())){
+                validationResult += "adress dostawy ";
+            }
+            String emptyBasket = "";
+            if(!taBasket.getText().equals("")){
+                emptyBasket = "\nTwój koszyk nie może byc pusty";
+            }
+            alert.setContentText(validationResult + emptyBasket);
+            alert.showAndWait();
+        }
 }
 
 

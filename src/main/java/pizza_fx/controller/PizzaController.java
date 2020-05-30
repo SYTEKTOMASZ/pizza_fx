@@ -61,7 +61,8 @@ public class PizzaController {
 
     @FXML
     void orderAction(MouseEvent event) {
-        System.out.println("112");
+        System.out.println("Phone regex: " + pizzaService.isPhoneValid(tfPhone.getText()));
+        System.out.println("Adress regex: "+ pizzaService.isAdressValid(tfAddress.getText()));
     }
 
     @FXML
