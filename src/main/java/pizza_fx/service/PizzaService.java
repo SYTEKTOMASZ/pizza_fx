@@ -4,12 +4,20 @@ import javafx.collections.ObservableList;
 import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.FileChooser;
 import pizza_fx.model.Ingredient;
 import pizza_fx.model.Pizza;
 import pizza_fx.model.PizzaModel;
 
-import javax.xml.soap.Text;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.io.Writer;
 import java.text.NumberFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.TemporalUnit;
 import java.util.*;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -122,6 +130,7 @@ public void getOrder(TextField tfPhone, TextField tfAddress, TextArea taBasket, 
             alert.setHeaderText("Potwierdzenie zamówienia");
             alert.setContentText("Twoje zamówienie: \n" + taBasket.getText() + "\nDo zapłaty: "  + amount + "zł");
             alert.showAndWait();
+            
             clearOrder(taBasket,tfAddress,tfPhone,lblSum);
 
         }
@@ -136,15 +145,42 @@ public void getOrder(TextField tfPhone, TextField tfAddress, TextArea taBasket, 
             if(!isAdressValid(tfAddress.getText())){
                 validationResult += "adress dostawy ";
             }
+            if(isPhoneValid(tfPhone.getText())&& isAdressValid(tfAddress.getText())){
+                validationResult ="";
+            }
             String emptyBasket = "";
-            if(!taBasket.getText().equals("")){
+            if(taBasket.getText().equals("")){
                 emptyBasket = "\nTwój koszyk nie może byc pusty";
             }
             alert.setContentText(validationResult + emptyBasket);
             alert.showAndWait();
         }
 }
+public void saveDataToFile(TextField tfAddress, TextField tfPhone, TextArea taBasket) throws FileNotFoundException {
+        //data i czas zamówienia
+        // adres dostawy
+        //telefon
+        // czas dostawy to data icz as zamówienia + 45 minut
+        //---------------------------------
+        // zawartość koszyka
+        // kwota do zapłaaty
+    FileChooser fileChooser = new FileChooser();
+    FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
+            "Plik tekstowy (*.txt)", "*txt");
+    fileChooser.getExtensionFilters().add(extFilter);
+    File file = fileChooser.showSaveDialog(null);
+    Writer out;
+    PrintWriter printWriter = new PrintWriter(file);
+    printWriter.println("Potwierdzneie Zamówienia");
+    LocalDateTime dateTime = LocalDateTime.now();
+    printWriter.println("Data i czas:" + dateTime);
+    printWriter.println("Adres dostawy: " + tfAddress.getText());
+    printWriter.println("Telefon kontaktowy: " + tfPhone.getText());
+    printWriter.println("Czas dostawyy: " + dateTime.plusMinutes(45));
+    printWriter.println("Zamówienie: \n" + taBasket.getText());
+    printWriter.println("Suma do zapłaty :" + amount + " zł");
+    printWriter.close();
 
 
-
+    }
 }
